@@ -23,3 +23,6 @@ Keylogger recever is a script you use in the same private network than your vitc
 
 VIRUS_SCANNER :
 Virus scanner is a script wich perform a network scan and show what ip addresses are infected. by default the keylogger uses the 8835 port, if you haven't changed it this is the port you will need to specify. This script may takes about 70/120 s to scan the entire network.
+
+DATA CATCHER:
+Data catcher is a script made to be run from an USB key, it simply copy copy all the sensitive data like Browsers data and SAM file from the computer to the USB key. Will not work if the app is not on her default installation path. Only the shadow file will be stolen on a linux machine.
