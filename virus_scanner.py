@@ -15,8 +15,7 @@ class virus_scanner():
         self.port = int(input("type the port used by the virus :: "))
         self.scanner()
 
-    def DHCP_process_function(self,index):
-        print("Process :: {}".format(index))
+    def DHCP_thread(self,index):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         first_index = index
         i = 1
@@ -75,18 +74,21 @@ class virus_scanner():
         file_split = file.read().split(sep = " ")
         last_digit = []
         ip = []
+        #display waiting message while scannig
+        wait_message = Process(target = self.wait_message)
+        wait_message.start()
+        time_start = datetime.now()
+
         #select the ipv4 "base" address 
         for ele in file_split:
             if ele.startswith("192."):
                 ele_str = str(ele)
-                print(len(ele_str)-1)
                 if len(ele_str)-1 == 12:
                     self.base = str(ele_str[:-3])
                 elif len(ele_str)-1 == 11:
                     self.base = str(ele_str[:-2])
                 elif len(ele_str)-1 == 10:
                     self.base = str(ele_str[:-1])
-                print(ele_str)
                 ip.append(ele_str)
             elif ele.startswith("172."):
                 ele_str = str(ele)
@@ -97,29 +99,22 @@ class virus_scanner():
                     self.base = str(ele_str[:-2])
                 elif len(ele_str)-1 == 9:
                     self.base = str(ele_str[:-1])
-                print(ele_str)
                 ip.append(ele_str)
             elif ele.startswith("10."): #idk how to handle this type of addresses
                 ele_str = str(ele)
-                print(len(ele_str)-1)
                 if len(ele_str)-1 == 8:
                     self.base = str(ele_str[:-3])
                 elif len(ele_str)-1 == 7:
                     self.base = str(ele_str[:-2])
                 elif len(ele_str)-1 == 6:
                     self.base = str(ele_str[:-1])
-                print(ele_str)
                 ip.append(ele_str)
                 
-        #display waiting message while scannig
-        wait_message = Process(target = self.wait_message)
-        #wait_message.start()
-        time_start = datetime.now()
         index = 0
-        t_list = []
+        p_list = []
         #Dynamically create processes to divide DHCP scanner IP's range
         for i in range(51):
-            process = Process(target = self.DHCP_process_function, args=(index,))
+            process = Process(target = self.DHCP_thread, args=(index,))
             p_list.append(process)
             index += 5
 
@@ -127,9 +122,10 @@ class virus_scanner():
             process.start()
         for process in p_list:
             process.join()
+
         #stop wait message an display host infected
-        #wait_message.terminate()
-        print("Began at {}, end at {}, lasted {}s".format(time_start,datetime.now(),self.time_past))
+        wait_message.terminate()
+        print("Began at {}, ended at {}, lasted {}s".format(time_start,datetime.now(),self.time_past))
         print("Infected Hosts :: ")
         for host in self.infected:
             print(host)
