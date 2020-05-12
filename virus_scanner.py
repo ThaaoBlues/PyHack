@@ -15,10 +15,11 @@ class virus_scanner():
         self.port = int(input("type the port used by the virus :: "))
         self.scanner()
 
-    def DHCP_thread(self,index):
-        print("Thread :: {}".format(index))
+    def DHCP_process_function(self,index):
+        print("Process :: {}".format(index))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         first_index = index
+        i = 1
         while index <= first_index+5:
             try:
                 sock.connect((str(self.base + str(index)),self.port))
@@ -112,21 +113,22 @@ class virus_scanner():
                 
         #display waiting message while scannig
         wait_message = Process(target = self.wait_message)
-        wait_message.start()
+        #wait_message.start()
         time_start = datetime.now()
         index = 0
         t_list = []
-        #Dynamically create Threads to divide DHCP scanner IP's range
+        #Dynamically create processes to divide DHCP scanner IP's range
         for i in range(51):
-            thread = threading.Thread(target = self.DHCP_thread, args=(index,))
-            t_list.append(thread)
+            process = Process(target = self.DHCP_process_function, args=(index,))
+            p_list.append(process)
             index += 5
-        for thread in t_list:
-            thread.start()
-        for thread in t_list:
-            thread.join()
+
+        for process in p_list:
+            process.start()
+        for process in p_list:
+            process.join()
         #stop wait message an display host infected
-        wait_message.terminate()
+        #wait_message.terminate()
         print("Began at {}, end at {}, lasted {}s".format(time_start,datetime.now(),self.time_past))
         print("Infected Hosts :: ")
         for host in self.infected:
