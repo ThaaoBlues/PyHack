@@ -10,10 +10,13 @@ class virus_scanner():
     def __init__(self):
         self.socket = ''
         self.base = ''
-        self.infected = []
+        self.infected = ""
         self.time_past = 0
+        f = open("Hosts.data.Blue","w")
+        f.close()
         self.port = int(input("type the port used by the virus :: "))
         self.scanner()
+
 
     def DHCP_thread(self,index):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,7 +25,9 @@ class virus_scanner():
         while index <= first_index+5:
             try:
                 sock.connect((str(self.base + str(index)),self.port))
-                self.infected.append(str(self.base + str(index)))
+                with open("Hosts.data.Blue","a") as f:
+                    f.write(str(self.base + str(index) + "\n"))
+                    f.close()
             except:
                 pass
             index +=1
@@ -58,7 +63,9 @@ class virus_scanner():
                 time.sleep(0.25)
                 self.time_past += 0.25
                 pos = 1
-            
+            with open("Time_past.data.Blue","w") as f:
+                f.write(str(self.time_past))
+                f.close()
     def scanner(self):
         file = open("test.txt","w")
         if platform.system() == 'Windows':
@@ -123,13 +130,22 @@ class virus_scanner():
         for process in p_list:
             process.join()
 
-        #stop wait message an display host infected
+        #stop wait message 
         wait_message.terminate()
+
+        #recover hosts and time_past from files
+        with open("Time_past.data.Blue","r") as f:
+            self.time_past = f.read()
+            f.close()
+        
+        with open("Hosts.data.Blue","r") as f:
+            self.infected = f.read()
+            f.close()
+
+        #display host infected    
         print("Began at {}, ended at {}, lasted {}s".format(time_start,datetime.now(),self.time_past))
         print("Infected Hosts :: ")
-        for host in self.infected:
-            print(host)
-
+        print(self.infected)
 
 if __name__ == '__main__':
     freeze_support()     
