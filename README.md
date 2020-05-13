@@ -26,3 +26,5 @@ Virus scanner is a script wich perform a network scan and show what ip addresses
 
 DATA CATCHER:
 Data catcher is a script made to be run from an USB key, it simply copy copy all the sensitive data like Browsers data and SAM file from the computer to the USB key. Will not work if the app is not on her default installation path. Only the shadow file will be stolen on a linux machine.
+WORDLIST_MAKER:
+Simple wordlist maker, to make more specific bruteforce attacks.
