@@ -47,3 +47,9 @@ DHCP SCANNER:
 
 (needs scapy, to install it, simply use python -m pip install scapy[complete])
 Simple script which discover all the hosts up of yoour network and their hostnames, you can pass "all" in object creation argument or a range of IP.
+
+DNS_SNIFFER:
+
+(needs scapy, to install it, simply use python -m pip install scapy[complete])
+Simple network sniffer which stores all the trafic in a pcap file created on the root, but the script display just the DNS requests in the console for a better view of the traffic.
+
