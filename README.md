@@ -45,7 +45,6 @@ Simple wordlist maker, to make more specific bruteforce attacks.
 
 DHCP SCANNER:
 
-(needs scapy, to install it, simply use python -m pip install scapy[complete])
 Simple script which discover all the hosts up of yoour network and their hostnames, you can pass "all" in object creation argument or a range of IP.
 
 DNS_SNIFFER:
