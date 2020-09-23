@@ -1,7 +1,7 @@
 
 import socket
 from io import StringIO
-from multiprocessing import process, freeze_support
+from multiprocessing import Process, freeze_support
 from subprocess import check_output, STDOUT
 import res
 import sys
@@ -21,6 +21,9 @@ class scanner():
     def scan(self,ip):
     
         for i in range(255):
+            proc = Process(target= self.ping, args=(ip,i,))
+            proc.start()
+    def ping(self,ip,i):
             if i == 0:
                 pass    
             else:
@@ -28,9 +31,9 @@ class scanner():
                 try:
                     r = check_output(cmd, shell=False, stderr = STDOUT)
                     if "1 received" in str(r):
-                        print("[{}] {} :: {} ".format(str(i),ip+str(i),str(socket.gethostbyaddr(ip+str(i)))))
+                        print("[{}] {} :: {} ".format(str(i),ip+str(i),str(socket.gethostbyaddr(ip+str(i))[0])))
                 except:
-                    sys.stdout.write(f"\r{i}/255")
+                    pass
                 
 
 
