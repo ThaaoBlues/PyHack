@@ -13,7 +13,7 @@ class scanner():
         s.connect(("8.8.8.8", 80))
         base = s.getsockname()[0]
         print("YOU :: {} :: {}".format(hostname,base))
-        base = ip.split(sep=".")
+        base = base.split(sep=".")
         base = "{}.{}.{}.".format(base[0],base[1],base[2])
         self.scan(base)
 
