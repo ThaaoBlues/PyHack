@@ -18,132 +18,40 @@ class virus_scanner():
         self.scanner()
 
 
-    def DHCP_thread(self,index):
+    def DHCP_thread(self,index,base):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        first_index = index
-        i = 1
-        while index <= first_index+5:
-            try:
-                sock.connect((str(self.base + str(index)),self.port))
-                with open("Hosts.data.Blue","a") as f:
-                    f.write(str(self.base + str(index) + "\n"))
-                    f.close()
-            except:
-                pass
-            index +=1
+        try:
+            sock.connect((str(base + str(index)),self.port))
+            with open("Hosts.data.Blue","a") as f:
+                f.write(str(base + str(index) + "\n"))
+                f.close()
+        except:
+            pass
         sock.close()
         exit(1)
 
-    def wait_message(self):
-        pos = 1
-        if platform.system() == 'Windows':
-            command = "cls"   
-        else :
-            command = "clear"
-        time.sleep(1)
-        os.system(command)
-        while True:
-            if pos == 1:
-                sys.stdout.write("\r Processing DHCP scan... | :: time past :: {}s \r".format(self.time_past))
-                time.sleep(0.25)
-                self.time_past += 0.25
-                pos = 2
-            elif pos == 2:
-                sys.stdout.write("\r Processing DHCP scan... / :: time past :: {}s \r".format(self.time_past))
-                time.sleep(0.25)
-                self.time_past += 0.25
-                pos = 3
-            elif pos == 3:
-                sys.stdout.write("\r Processing DHCP scan... - :: time past :: {}s \r".format(self.time_past))
-                time.sleep(0.25)
-                self.time_past += 0.25
-                pos = 4
-            elif pos == 4:
-                sys.stdout.write("\r Processing DHCP scan... \\ :: time past :: {}s \r".format(self.time_past))
-                time.sleep(0.25)
-                self.time_past += 0.25
-                pos = 1
-            with open("Time_past.data.Blue","w") as f:
-                f.write(str(self.time_past))
-                f.close()
+
     def scanner(self):
-        file = open("test.txt","w")
-        if platform.system() == 'Windows':
-            file = open("test.txt","r")
-            os.system("cd {}".format(os.getcwd()))
-            os.system("ipconfig >> test.txt")
-            
-        else :
-            file = open("test.txt","r")
-            os.system("cd {}".format(os.getcwd()))
-            os.system("ifconfig >> test.txt")
-            
-        file_split = file.read().split(sep = " ")
-        last_digit = []
-        ip = []
-        #display waiting message while scannig
-        wait_message = Process(target = self.wait_message)
-        wait_message.start()
-        time_start = datetime.now()
-
-        #select the ipv4 "base" address 
-        for ele in file_split:
-            if ele.startswith("192."):
-                ele_str = str(ele)
-                if len(ele_str)-1 == 12:
-                    self.base = str(ele_str[:-3])
-                elif len(ele_str)-1 == 11:
-                    self.base = str(ele_str[:-2])
-                elif len(ele_str)-1 == 10:
-                    self.base = str(ele_str[:-1])
-                ip.append(ele_str)
-            elif ele.startswith("172."):
-                ele_str = str(ele)
-                print(len(ele_str)-1)
-                if len(ele_str)-1 == 11:
-                    self.base = str(ele_str[:-3])
-                elif len(ele_str)-1 == 10:
-                    self.base = str(ele_str[:-2])
-                elif len(ele_str)-1 == 9:
-                    self.base = str(ele_str[:-1])
-                ip.append(ele_str)
-            elif ele.startswith("10."): #idk how to handle this type of addresses
-                ele_str = str(ele)
-                if len(ele_str)-1 == 8:
-                    self.base = str(ele_str[:-3])
-                elif len(ele_str)-1 == 7:
-                    self.base = str(ele_str[:-2])
-                elif len(ele_str)-1 == 6:
-                    self.base = str(ele_str[:-1])
-                ip.append(ele_str)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        base = s.getsockname()[0]
+        base = base.split(sep=".")
+        base = "{}.{}.{}.".format(base[0],base[1],base[2])
                 
-        index = 0
-        p_list = []
+
         #Dynamically create processes to divide DHCP scanner IP's range
-        for i in range(51):
-            process = Process(target = self.DHCP_thread, args=(index,))
-            p_list.append(process)
-            index += 5
-
-        for process in p_list:
-            process.start()
-        for process in p_list:
-            process.join()
-
+        for i in range(255):
+            proc = Process(target = self.DHCP_thread, args=(i,base,))
+            proc.start()
         #stop wait message 
-        wait_message.terminate()
 
-        #recover hosts and time_past from files
-        with open("Time_past.data.Blue","r") as f:
-            self.time_past = f.read()
-            f.close()
+
         
         with open("Hosts.data.Blue","r") as f:
             self.infected = f.read()
             f.close()
 
         #display host infected    
-        print("Began at {}, ended at {}, lasted {}s".format(time_start,datetime.now(),self.time_past))
         print("Infected Hosts :: ")
         print(self.infected)
 
