@@ -17,7 +17,7 @@ class live_recever():
                 if platform.system() == "Windows":
                     print(self.keys, end = '')
                     os.system("cls")
-                elif platform.system == "Linux":
+                elif platform.system() == "Linux":
                     print(self.keys, end ='')
                     os.system("clear")
             except KeyboardInterrupt:
