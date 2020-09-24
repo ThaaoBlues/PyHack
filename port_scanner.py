@@ -24,4 +24,4 @@ class port_scanner():
 
 if __name__ == "__main__":
     ps = port_scanner()
-    ps.scan("192.168.8.1",max=2000)
+    ps.scan(input("IP : "),max=int(input("PORT RANGE : ")))
