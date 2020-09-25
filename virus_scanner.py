@@ -12,7 +12,7 @@ class virus_scanner():
         self.base = ''
         self.infected = ""
         self.time_past = 0
-        f = open("Hosts.data.Blue","w")
+        f = open("pwned_hosts.log","w")
         f.close()
         self.port = int(input("type the port used by the virus :: "))
         self.scanner()
@@ -22,7 +22,7 @@ class virus_scanner():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             sock.connect((str(base + str(index)),self.port))
-            with open("Hosts.data.Blue","a") as f:
+            with open("pwned_hosts.log","a") as f:
                 f.write(str(base + str(index) + "\n"))
                 f.close()
         except:
@@ -47,7 +47,7 @@ class virus_scanner():
 
 
         
-        with open("Hosts.data.Blue","r") as f:
+        with open("pwned_hosts.log","r") as f:
             self.infected = f.read()
             f.close()
 
