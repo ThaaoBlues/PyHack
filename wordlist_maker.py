@@ -117710,6 +117710,3 @@ class wordlist_maker():
     """,total,goal)
         print("\033[1;33;48m [WRITING DICTIONNARY DONE]\n\033[0;31;48m")
         print("file size :: {}".format(os.path.getsize("output/wl.txt")))
-
-if __name__ == "__main__":
-    wordlist_maker1 = wordlist_maker()

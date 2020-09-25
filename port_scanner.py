@@ -7,7 +7,7 @@ class port_scanner():
         pass
 
     def scan(self,ip,max=8888):
-        print(f"[+] beginning scan... ({max} ports) ")
+        print(f"\n[+] beginning scan on : {ip}\t({max} ports) ")
         for i in range(max):
             proc = Process(target=self.connect, args =(ip,i,))
             proc.start()
@@ -17,11 +17,9 @@ class port_scanner():
         try:
             print(f"\r[+]Trying port number {port}", end="")
             sock.connect((ip,port))
-            print(f"\r=====[+] OPEN PORT : {port}=====\n",end="")
+            service = socket.getservbyport(port)
+            print(f"\r=====[+] OPEN PORT : {port} ({service})=====\n",end="")
         except:
             pass
 
 
-if __name__ == "__main__":
-    ps = port_scanner()
-    ps.scan(input("IP : "),max=int(input("PORT RANGE : ")))

@@ -55,7 +55,5 @@ class virus_scanner():
         print("Infected Hosts :: ")
         print(self.infected)
 
-if __name__ == '__main__':
-    freeze_support()     
-    virus_scaner1 = virus_scanner()
+
             
