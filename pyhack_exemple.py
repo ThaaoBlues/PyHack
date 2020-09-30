@@ -20,7 +20,7 @@ if __name__ == "__main__":
             klg_rcv = keylogger_recever.live_recever()
 
         if "virus scanner" in cmd:
-            virus_scan = virus_scanner.virus_scanner()
+            virus_scan = virus_scanner.virus_scanner(port=int(input('Select the port used by the virus : ')))
 
         if "network scan" in cmd:
             netscan = simple_DHCP_scan.scanner()
