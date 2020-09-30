@@ -7,14 +7,14 @@ import sys
 from datetime import datetime
 import time
 class virus_scanner():
-    def __init__(self):
+    def __init__(self,port):
         self.socket = ''
         self.base = ''
         self.infected = ""
         self.time_past = 0
         f = open("pwned_hosts.log","w")
         f.close()
-        self.port = int(input("type the port used by the virus :: "))
+        self.port = port
         self.scanner()
 
 
@@ -55,5 +55,12 @@ class virus_scanner():
         print("Infected Hosts :: ")
         print(self.infected)
 
+    def get_ihosts(self):
+        hosts = []
+        with open("pwned_hosts.log","r") as f:
+            hosts = f.read().split('\n')
+            f.close()
 
+        return hosts
+            
             
